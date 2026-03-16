@@ -14,7 +14,7 @@ AI Agents that do not know what they cannot do waste most of their compute tryin
 
 ## Skill Boundary Heatmap
 
-![Skill Boundary Heatmap](skill_boundary_heatmap.jpg)
+![Skill Boundary Heatmap](skill_boundary_heatmap.png)
 
 ## Key findings from the paper
 

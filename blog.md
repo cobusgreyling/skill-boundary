@@ -84,7 +84,7 @@ The API exploration runs in four phases…
 
 **Phase 4 — Skill Boundary Map.** The agent produces a structured boundary table showing exactly what it can and cannot do at each auth level.
 
-![Skill Boundary Heatmap](skill_boundary_heatmap.jpg)
+![Skill Boundary Heatmap](skill_boundary_heatmap.png)
 
 The agent identified 5 buildable applications (CI/CD dashboard, environment provisioner, secret rotation bot, PR merge automation, audit exporter), 3 composite workflows and 9 specific things it cannot do…including reading secret values, executing arbitrary code, managing auth credentials, accessing billing data, and performing bulk operations.
 
