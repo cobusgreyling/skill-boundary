@@ -1,0 +1,472 @@
+{
+  "api": {
+    "api": "DevForge Platform API",
+    "version": "v2",
+    "resources": [
+      "secrets",
+      "deployments",
+      "environments",
+      "pipelines",
+      "audit-log",
+      "users",
+      "webhooks",
+      "repos"
+    ]
+  },
+  "endpoints": {
+    "audit-log": {
+      "/audit-log": {
+        "GET": {
+          "description": "Query audit log",
+          "parameters": [
+            "actor",
+            "action",
+            "resource",
+            "date_from",
+            "date_to"
+          ],
+          "auth_required": "admin_key",
+          "auth_description": "Admin access \u2014 platform administrators only"
+        }
+      }
+    },
+    "deployments": {
+      "/deployments": {
+        "GET": {
+          "description": "List deployments",
+          "parameters": [
+            "repo_id",
+            "environment",
+            "status",
+            "date_from"
+          ],
+          "auth_required": "api_key",
+          "auth_description": "Standard API access \u2014 available to all authenticated developers"
+        },
+        "POST": {
+          "description": "Trigger deployment",
+          "parameters": [
+            "repo_id",
+            "branch",
+            "environment",
+            "config_overrides"
+          ],
+          "auth_required": "deploy_key",
+          "auth_description": "Deploy access \u2014 CI/CD systems and authorized deployers"
+        }
+      },
+      "/deployments/{id}": {
+        "GET": {
+          "description": "Get deployment status",
+          "parameters": [],
+          "auth_required": "api_key",
+          "auth_description": "Standard API access \u2014 available to all authenticated developers"
+        },
+        "DELETE": {
+          "description": "Rollback deployment",
+          "parameters": [],
+          "auth_required": "deploy_key",
+          "auth_description": "Deploy access \u2014 CI/CD systems and authorized deployers"
+        }
+      },
+      "/deployments/{id}/logs": {
+        "GET": {
+          "description": "Get deployment logs",
+          "parameters": [
+            "level",
+            "since"
+          ],
+          "auth_required": "api_key",
+          "auth_description": "Standard API access \u2014 available to all authenticated developers"
+        }
+      }
+    },
+    "environments": {
+      "/environments": {
+        "GET": {
+          "description": "List environments",
+          "parameters": [
+            "repo_id"
+          ],
+          "auth_required": "api_key",
+          "auth_description": "Standard API access \u2014 available to all authenticated developers"
+        },
+        "POST": {
+          "description": "Create environment",
+          "parameters": [
+            "name",
+            "repo_id",
+            "protection_rules",
+            "variables"
+          ],
+          "auth_required": "admin_key",
+          "auth_description": "Admin access \u2014 platform administrators only"
+        }
+      },
+      "/environments/{id}": {
+        "GET": {
+          "description": "Get environment details",
+          "parameters": [],
+          "auth_required": "api_key",
+          "auth_description": "Standard API access \u2014 available to all authenticated developers"
+        },
+        "PATCH": {
+          "description": "Update environment config",
+          "parameters": [
+            "protection_rules",
+            "variables"
+          ],
+          "auth_required": "admin_key",
+          "auth_description": "Admin access \u2014 platform administrators only"
+        },
+        "DELETE": {
+          "description": "Delete environment",
+          "parameters": [],
+          "auth_required": "admin_key",
+          "auth_description": "Admin access \u2014 platform administrators only"
+        }
+      }
+    },
+    "pipelines": {
+      "/pipelines": {
+        "GET": {
+          "description": "List CI/CD pipelines",
+          "parameters": [
+            "repo_id",
+            "status",
+            "trigger"
+          ],
+          "auth_required": "api_key",
+          "auth_description": "Standard API access \u2014 available to all authenticated developers"
+        },
+        "POST": {
+          "description": "Create pipeline",
+          "parameters": [
+            "repo_id",
+            "name",
+            "stages",
+            "triggers",
+            "config_yaml"
+          ],
+          "auth_required": "maintainer_key",
+          "auth_description": "Maintainer access \u2014 repo owners and designated maintainers"
+        }
+      },
+      "/pipelines/{id}": {
+        "GET": {
+          "description": "Get pipeline details",
+          "parameters": [],
+          "auth_required": "api_key",
+          "auth_description": "Standard API access \u2014 available to all authenticated developers"
+        },
+        "PATCH": {
+          "description": "Update pipeline config",
+          "parameters": [
+            "stages",
+            "triggers",
+            "enabled"
+          ],
+          "auth_required": "maintainer_key",
+          "auth_description": "Maintainer access \u2014 repo owners and designated maintainers"
+        },
+        "DELETE": {
+          "description": "Delete pipeline",
+          "parameters": [],
+          "auth_required": "admin_key",
+          "auth_description": "Admin access \u2014 platform administrators only"
+        }
+      },
+      "/pipelines/{id}/runs": {
+        "GET": {
+          "description": "List pipeline runs",
+          "parameters": [
+            "status",
+            "branch"
+          ],
+          "auth_required": "api_key",
+          "auth_description": "Standard API access \u2014 available to all authenticated developers"
+        },
+        "POST": {
+          "description": "Trigger pipeline run",
+          "parameters": [
+            "branch",
+            "variables"
+          ],
+          "auth_required": "api_key",
+          "auth_description": "Standard API access \u2014 available to all authenticated developers"
+        }
+      },
+      "/pipelines/{id}/runs/{run_id}": {
+        "GET": {
+          "description": "Get pipeline run details and logs",
+          "parameters": [],
+          "auth_required": "api_key",
+          "auth_description": "Standard API access \u2014 available to all authenticated developers"
+        },
+        "DELETE": {
+          "description": "Cancel pipeline run",
+          "parameters": [],
+          "auth_required": "api_key",
+          "auth_description": "Standard API access \u2014 available to all authenticated developers"
+        }
+      }
+    },
+    "repos": {
+      "/repos": {
+        "GET": {
+          "description": "List repositories",
+          "parameters": [
+            "limit",
+            "offset",
+            "visibility",
+            "language"
+          ],
+          "auth_required": "api_key",
+          "auth_description": "Standard API access \u2014 available to all authenticated developers"
+        },
+        "POST": {
+          "description": "Create repository",
+          "parameters": [
+            "name",
+            "description",
+            "visibility",
+            "default_branch"
+          ],
+          "auth_required": "api_key",
+          "auth_description": "Standard API access \u2014 available to all authenticated developers"
+        }
+      },
+      "/repos/{id}": {
+        "GET": {
+          "description": "Get repository details",
+          "parameters": [],
+          "auth_required": "api_key",
+          "auth_description": "Standard API access \u2014 available to all authenticated developers"
+        },
+        "PATCH": {
+          "description": "Update repository settings",
+          "parameters": [
+            "description",
+            "visibility",
+            "archived"
+          ],
+          "auth_required": "api_key",
+          "auth_description": "Standard API access \u2014 available to all authenticated developers"
+        },
+        "DELETE": {
+          "description": "Delete repository",
+          "parameters": [],
+          "auth_required": "admin_key",
+          "auth_description": "Admin access \u2014 platform administrators only"
+        }
+      },
+      "/repos/{id}/branches": {
+        "GET": {
+          "description": "List branches",
+          "parameters": [],
+          "auth_required": "api_key",
+          "auth_description": "Standard API access \u2014 available to all authenticated developers"
+        },
+        "POST": {
+          "description": "Create branch",
+          "parameters": [
+            "name",
+            "source_branch"
+          ],
+          "auth_required": "api_key",
+          "auth_description": "Standard API access \u2014 available to all authenticated developers"
+        }
+      },
+      "/repos/{id}/commits": {
+        "GET": {
+          "description": "List commits",
+          "parameters": [
+            "branch",
+            "since",
+            "until",
+            "author"
+          ],
+          "auth_required": "api_key",
+          "auth_description": "Standard API access \u2014 available to all authenticated developers"
+        }
+      },
+      "/repos/{id}/pull-requests": {
+        "GET": {
+          "description": "List pull requests",
+          "parameters": [
+            "state",
+            "author",
+            "reviewer"
+          ],
+          "auth_required": "api_key",
+          "auth_description": "Standard API access \u2014 available to all authenticated developers"
+        },
+        "POST": {
+          "description": "Create pull request",
+          "parameters": [
+            "title",
+            "description",
+            "source_branch",
+            "target_branch",
+            "reviewers"
+          ],
+          "auth_required": "api_key",
+          "auth_description": "Standard API access \u2014 available to all authenticated developers"
+        }
+      },
+      "/repos/{id}/pull-requests/{pr_id}": {
+        "GET": {
+          "description": "Get pull request details",
+          "parameters": [],
+          "auth_required": "api_key",
+          "auth_description": "Standard API access \u2014 available to all authenticated developers"
+        },
+        "PATCH": {
+          "description": "Update pull request",
+          "parameters": [
+            "title",
+            "description",
+            "state",
+            "reviewers"
+          ],
+          "auth_required": "api_key",
+          "auth_description": "Standard API access \u2014 available to all authenticated developers"
+        }
+      },
+      "/repos/{id}/pull-requests/{pr_id}/merge": {
+        "POST": {
+          "description": "Merge pull request",
+          "parameters": [
+            "strategy",
+            "delete_branch"
+          ],
+          "auth_required": "maintainer_key",
+          "auth_description": "Maintainer access \u2014 repo owners and designated maintainers"
+        }
+      }
+    },
+    "secrets": {
+      "/secrets": {
+        "GET": {
+          "description": "List secret names (values hidden)",
+          "parameters": [
+            "scope",
+            "repo_id"
+          ],
+          "auth_required": "maintainer_key",
+          "auth_description": "Maintainer access \u2014 repo owners and designated maintainers"
+        },
+        "POST": {
+          "description": "Create secret",
+          "parameters": [
+            "name",
+            "value",
+            "scope",
+            "repo_id"
+          ],
+          "auth_required": "admin_key",
+          "auth_description": "Admin access \u2014 platform administrators only"
+        }
+      },
+      "/secrets/{id}": {
+        "PATCH": {
+          "description": "Rotate secret value",
+          "parameters": [
+            "value"
+          ],
+          "auth_required": "admin_key",
+          "auth_description": "Admin access \u2014 platform administrators only"
+        },
+        "DELETE": {
+          "description": "Delete secret",
+          "parameters": [],
+          "auth_required": "admin_key",
+          "auth_description": "Admin access \u2014 platform administrators only"
+        }
+      }
+    },
+    "users": {
+      "/users": {
+        "GET": {
+          "description": "List platform users",
+          "parameters": [
+            "role",
+            "team"
+          ],
+          "auth_required": "api_key",
+          "auth_description": "Standard API access \u2014 available to all authenticated developers"
+        }
+      },
+      "/users/{id}": {
+        "GET": {
+          "description": "Get user profile",
+          "parameters": [],
+          "auth_required": "api_key",
+          "auth_description": "Standard API access \u2014 available to all authenticated developers"
+        },
+        "PATCH": {
+          "description": "Update user role",
+          "parameters": [
+            "role",
+            "teams"
+          ],
+          "auth_required": "admin_key",
+          "auth_description": "Admin access \u2014 platform administrators only"
+        }
+      }
+    },
+    "webhooks": {
+      "/webhooks": {
+        "GET": {
+          "description": "List webhooks",
+          "parameters": [
+            "repo_id"
+          ],
+          "auth_required": "api_key",
+          "auth_description": "Standard API access \u2014 available to all authenticated developers"
+        },
+        "POST": {
+          "description": "Register webhook",
+          "parameters": [
+            "repo_id",
+            "url",
+            "events",
+            "secret"
+          ],
+          "auth_required": "maintainer_key",
+          "auth_description": "Maintainer access \u2014 repo owners and designated maintainers"
+        }
+      },
+      "/webhooks/{id}": {
+        "PATCH": {
+          "description": "Update webhook",
+          "parameters": [
+            "url",
+            "events",
+            "active"
+          ],
+          "auth_required": "maintainer_key",
+          "auth_description": "Maintainer access \u2014 repo owners and designated maintainers"
+        },
+        "DELETE": {
+          "description": "Delete webhook",
+          "parameters": [],
+          "auth_required": "maintainer_key",
+          "auth_description": "Maintainer access \u2014 repo owners and designated maintainers"
+        }
+      }
+    }
+  },
+  "auth_levels": {
+    "api_key": "Standard API access \u2014 available to all authenticated developers",
+    "maintainer_key": "Maintainer access \u2014 repo owners and designated maintainers",
+    "deploy_key": "Deploy access \u2014 CI/CD systems and authorized deployers",
+    "admin_key": "Admin access \u2014 platform administrators only"
+  },
+  "rate_limits": {
+    "api_key": "100 requests/minute",
+    "maintainer_key": "60 requests/minute",
+    "deploy_key": "30 requests/minute",
+    "admin_key": "200 requests/minute"
+  }
+}
